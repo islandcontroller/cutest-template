@@ -11,9 +11,9 @@ Eclipse Embedded CDT project template for the *cutest* C Unit-Testing Framework.
     * Select the `TEST_MyUnit` template project
 * After import, you can rename the `TEST_...`-Project
 
-### Automated Build Systems
+### Automated Testing
 
-A [Makefile](Makefile) is provided for building the test executable using an automated build system, such as Jenkins. Use it inside a [islandc/cutest](https://hub.docker.com/r/islandc/cutest) build container.
+A [Makefile](Makefile) is provided for building and running the test executable CI/CD workflow, such as using *Jenkins* or *GitHub Actions*. Make the `all` build target inside a [islandc/cutest](https://hub.docker.com/r/islandc/cutest) build container:
 
     - name: Run Unit-Test
       uses: docker://islandc/cutest
@@ -24,12 +24,12 @@ The project name can be overridden using an environment variable:
 
     PROJ_NAME=name make all
 
-If you are referencing other projects outside the CuTest root, make sure to volume-mount the most top-level common folder, and `cd` to the CuTest root within the `cutest` container (see [cutest-example](https://github.com/islandcontroller/cutest-example/blob/master/.github/workflows/cutest-unit-tests.yml) action)
+If you are referencing other projects outside the CuTest root, make sure to workspace-mount the most top-level common folder, and `-C` to the CuTest root within the `cutest` container (see [cutest-example](https://github.com/islandcontroller/cutest-example/blob/master/.github/workflows/cutest-unit-tests.yml) action)
 
     - name: Run Unit-Test
       uses: docker://islandc/cutest
       with:
-        args: /bin/sh -c "cd TEST_RV32CoreIdent && make all"
+        args: /bin/sh -c "make all -C <project-location>"
 
 ### GitHub Actions
 
